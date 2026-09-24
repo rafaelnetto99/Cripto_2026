@@ -1,0 +1,31 @@
+# Os valores secretos (senha do banco, conta da pool) ficam no arquivo .env,
+# que existe só no servidor. Copie .env.example para .env e preencha.
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hp
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?defina DB_PASSWORD no .env}
+      POSTGRES_DB: hp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+
+  proxy:
+    build: .
+    restart: unless-stopped
+    depends_on: [db]
+    ports:
+      - "3333:3333"            # máquinas conectam aqui
+      - "127.0.0.1:8080:8080"  # API só local
+    environment:
+      LISTEN_ADDR: ":3333"
+      API_ADDR: ":8080"
+      POOL_ADDR: ${POOL_ADDR:?defina POOL_ADDR no .env}
+      POOL_USER: ${POOL_USER:?defina POOL_USER no .env}
+      POOL_PASS: ${POOL_PASS:-x}
+      DATABASE_URL: "postgres://hp:${DB_PASSWORD}@db/hp?sslmode=disable"
+
+volumes:
+  pgdata:
