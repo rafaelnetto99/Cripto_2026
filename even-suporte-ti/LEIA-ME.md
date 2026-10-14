@@ -7,6 +7,19 @@ PowerShell 5.1 + WPF.
 > comando foi executado contra servidores reais. Nenhuma senha real foi
 > usada ou incluída.
 
+## Versão simples: um único arquivo BAT
+
+Se você quer só a BAT melhorada (sem instalar nada), use
+**`SuporteTI-EVEN.bat`**: dois cliques e pronto, para usuários e para a TI.
+Mesmo menu de antes, com senha escondida (`*`), sem senha na linha de
+comando, conferência de senha antes de salvar, verificação de cada passo,
+limpeza com contagem e confirmação, impressoras com resumo e pedido de
+administrador só quando precisa. Servidores, pastas e impressoras ficam no
+bloco `CONFIGURACAO` no final do arquivo. Log em
+`%LOCALAPPDATA%\EVEN\SuporteTI\suporte.log` (sem senhas).
+
+O restante deste documento descreve a versão completa com interface gráfica.
+
 ## Informações que faltam (resumo)
 
 A seção 14 do pedido ("Alterações internas já realizadas") veio só com o
