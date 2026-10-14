@@ -1,0 +1,470 @@
+<!--
+    Arquivo : ui\MainWindow.xaml
+    Projeto : Central de Suporte TI - EVEN (material para HOMOLOGAÇÃO)
+
+    Interface WPF. As cores abaixo são valores PADRÃO; na abertura a
+    aplicação substitui todas pelas cores de config\SuporteTI.config.psd1
+    (seção Visual). Para mudar cores, altere a configuração, não este arquivo.
+
+    Ícones: fonte nativa "Segoe Fluent Icons" (Windows 11) com reserva
+    "Segoe MDL2 Assets" (Windows 10). Todo estado tem ícone + texto.
+
+    Segurança: este arquivo é carregado com XamlReader e pode instanciar
+    objetos .NET; mantenha-o em pasta onde só administradores gravam.
+-->
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Name="JanelaPrincipal"
+        Title="Central de Suporte TI - EVEN"
+        Width="1120" Height="760" MinWidth="820" MinHeight="580"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI" FontSize="14"
+        UseLayoutRounding="True" SnapsToDevicePixels="True"
+        Background="{DynamicResource BrushBranco}"
+        Foreground="{DynamicResource BrushPreto}">
+
+    <Window.Resources>
+        <!-- Valores padrão (substituídos pela configuração ao abrir) -->
+        <SolidColorBrush x:Key="BrushPrimaria" Color="#0B6E4F"/>
+        <SolidColorBrush x:Key="BrushPrimariaEscura" Color="#084F39"/>
+        <SolidColorBrush x:Key="BrushPreto" Color="#000000"/>
+        <SolidColorBrush x:Key="BrushBranco" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="BrushCinzaClaro" Color="#F2F2F2"/>
+        <SolidColorBrush x:Key="BrushSucesso" Color="#0B6E4F"/>
+        <SolidColorBrush x:Key="BrushAviso" Color="#8A5A00"/>
+        <SolidColorBrush x:Key="BrushErro" Color="#B00020"/>
+        <SolidColorBrush x:Key="BrushTextoSecundario" Color="#444444"/>
+
+        <FontFamily x:Key="FonteIcones">Segoe Fluent Icons, Segoe MDL2 Assets</FontFamily>
+
+        <!-- Foco visível para navegação por teclado -->
+        <Style x:Key="FocoVisivel">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="-3" Stroke="{DynamicResource BrushPrimaria}" StrokeThickness="2" StrokeDashArray="2 1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botão do menu lateral -->
+        <Style x:Key="BotaoMenu" TargetType="Button">
+            <Setter Property="Foreground" Value="{DynamicResource BrushBranco}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="5,0,0,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="16,13"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocoVisivel}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Borda" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Borda" Property="Background" Value="{DynamicResource BrushPrimariaEscura}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Borda" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Cartão de função -->
+        <Style x:Key="BotaoCartao" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource BrushBranco}"/>
+            <Setter Property="Foreground" Value="{DynamicResource BrushPreto}"/>
+            <Setter Property="BorderBrush" Value="#D0D0D0"/>
+            <Setter Property="Width" Value="268"/>
+            <Setter Property="MinHeight" Value="164"/>
+            <Setter Property="Margin" Value="0,0,16,16"/>
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocoVisivel}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Borda" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1" CornerRadius="8" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Borda" Property="BorderBrush" Value="{DynamicResource BrushPrimaria}"/>
+                                <Setter TargetName="Borda" Property="BorderThickness" Value="2"/>
+                                <Setter TargetName="Borda" Property="Background" Value="{DynamicResource BrushCinzaClaro}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Borda" Property="BorderBrush" Value="{DynamicResource BrushPrimaria}"/>
+                                <Setter TargetName="Borda" Property="BorderThickness" Value="2"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Borda" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botão principal (ação) -->
+        <Style x:Key="BotaoPrimario" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource BrushPrimaria}"/>
+            <Setter Property="Foreground" Value="{DynamicResource BrushBranco}"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="24,12"/>
+            <Setter Property="MinHeight" Value="48"/>
+            <Setter Property="MinWidth" Value="180"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocoVisivel}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Borda" Background="{TemplateBinding Background}" CornerRadius="6"
+                                BorderThickness="2" BorderBrush="Transparent" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Borda" Property="Background" Value="{DynamicResource BrushPrimariaEscura}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Borda" Property="BorderBrush" Value="{DynamicResource BrushPreto}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Borda" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Botão secundário (contorno) -->
+        <Style x:Key="BotaoSecundario" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource BrushBranco}"/>
+            <Setter Property="Foreground" Value="{DynamicResource BrushPreto}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource BrushPreto}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Padding" Value="18,10"/>
+            <Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocoVisivel}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Borda" Background="{TemplateBinding Background}" CornerRadius="6"
+                                BorderThickness="1.5" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Borda" Property="Background" Value="{DynamicResource BrushCinzaClaro}"/>
+                                <Setter TargetName="Borda" Property="BorderBrush" Value="{DynamicResource BrushPrimaria}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="Borda" Property="BorderBrush" Value="{DynamicResource BrushPrimaria}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Borda" Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Rotulo" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="0,14,0,6"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Padding" Value="8,7"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="BorderBrush" Value="#8A8A8A"/>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Padding" Value="8,7"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="BorderBrush" Value="#8A8A8A"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,6"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocoVisivel}"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>  <!-- cabeçalho -->
+            <RowDefinition Height="Auto"/>  <!-- faixa verde -->
+            <RowDefinition Height="*"/>     <!-- corpo -->
+            <RowDefinition Height="Auto"/>  <!-- status/progresso -->
+            <RowDefinition Height="Auto"/>  <!-- atividades -->
+            <RowDefinition Height="Auto"/>  <!-- rodapé -->
+        </Grid.RowDefinitions>
+
+        <!-- ===================== CABEÇALHO ===================== -->
+        <Border Grid.Row="0" Background="{DynamicResource BrushPreto}" Padding="20,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Espaço reservado para o logotipo (Visual.CaminhoLogotipo) -->
+                <Grid Grid.Column="0" Width="150" Height="48" Margin="0,0,20,0" VerticalAlignment="Center">
+                    <Border x:Name="LogoPlaceholder" BorderBrush="{DynamicResource BrushBranco}" BorderThickness="1"
+                            CornerRadius="4" AutomationProperties.Name="Espaço para o logotipo da empresa">
+                        <TextBlock Text="LOGO" Foreground="{DynamicResource BrushBranco}" FontWeight="Bold"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.8"/>
+                    </Border>
+                    <Image x:Name="ImgLogo" Stretch="Uniform" Visibility="Collapsed"
+                           AutomationProperties.Name="Logotipo da empresa"/>
+                </Grid>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock x:Name="TxtTituloApp" Text="Central de Suporte TI - EVEN" FontSize="22" FontWeight="Bold"
+                               Foreground="{DynamicResource BrushBranco}" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="TxtSubtituloApp" Text="Ferramentas de suporte para o seu computador" FontSize="13"
+                               Foreground="{DynamicResource BrushBranco}" Opacity="0.85" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+
+                <Border x:Name="BordaPerfil" Grid.Column="2" Background="{DynamicResource BrushPrimaria}" CornerRadius="14"
+                        Padding="12,5" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE77B;" FontFamily="{StaticResource FonteIcones}" Foreground="{DynamicResource BrushBranco}"
+                                   VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock x:Name="TxtPerfilBadge" Text="Usuário" Foreground="{DynamicResource BrushBranco}" FontWeight="SemiBold"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+        <Border Grid.Row="1" Height="5" Background="{DynamicResource BrushPrimaria}"/>
+
+        <!-- ===================== CORPO ===================== -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Menu lateral -->
+            <Border Grid.Column="0" Background="{DynamicResource BrushPreto}">
+                <StackPanel x:Name="PainelNav" Margin="0,12,0,0">
+                    <Button x:Name="BtnNavInicio" Style="{StaticResource BotaoMenu}" AutomationProperties.Name="Início">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE80F;" FontFamily="{StaticResource FonteIcones}" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Início" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="BtnNavAcesso" Style="{StaticResource BotaoMenu}" AutomationProperties.Name="Acesso e credenciais">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8D7;" FontFamily="{StaticResource FonteIcones}" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Acesso e credenciais" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="BtnNavUsuario" Style="{StaticResource BotaoMenu}" AutomationProperties.Name="Ferramentas do usuário">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE90F;" FontFamily="{StaticResource FonteIcones}" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Ferramentas do usuário" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="BtnNavTI" Style="{StaticResource BotaoMenu}" Visibility="Collapsed" AutomationProperties.Name="Ferramentas exclusivas do TI">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE7EF;" FontFamily="{StaticResource FonteIcones}" FontSize="18" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Ferramentas do TI" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Área de conteúdo -->
+            <Grid Grid.Column="1" Background="{DynamicResource BrushBranco}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Aviso de homologação (só para TI) -->
+                <Border x:Name="BannerHomologacao" Grid.Row="0" Visibility="Collapsed" Background="#FFF4D6"
+                        BorderBrush="{DynamicResource BrushAviso}" BorderThickness="0,0,0,2" Padding="16,10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FonteIcones}" Foreground="{DynamicResource BrushAviso}"
+                                   FontSize="18" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="TxtBanner" TextWrapping="Wrap" VerticalAlignment="Center" Foreground="{DynamicResource BrushPreto}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- MENU (cartões) -->
+                <ScrollViewer x:Name="PainelMenu" Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="28,20,12,20">
+                    <StackPanel>
+                        <TextBlock x:Name="TxtSecaoTitulo" Text="Início" FontSize="24" FontWeight="Bold"/>
+                        <TextBlock x:Name="TxtSecaoDescricao" Text="Escolha uma função." Margin="0,4,0,18"
+                                   Foreground="{DynamicResource BrushTextoSecundario}" TextWrapping="Wrap"/>
+                        <StackPanel x:Name="PainelCartoes"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- PAINEL DA AÇÃO -->
+                <ScrollViewer x:Name="PainelAcao" Grid.Row="1" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" Padding="28,16,28,20">
+                    <StackPanel MaxWidth="900" HorizontalAlignment="Left">
+                        <Button x:Name="BtnVoltar" Style="{StaticResource BotaoSecundario}" HorizontalAlignment="Left"
+                                AutomationProperties.Name="Voltar ao menu principal" ToolTip="Voltar ao menu (Esc)">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="&#xE72B;" FontFamily="{StaticResource FonteIcones}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Voltar ao menu" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+
+                        <Grid Margin="0,18,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Name="TxtAcaoIcone" Grid.Column="0" FontFamily="{StaticResource FonteIcones}" FontSize="36"
+                                       Foreground="{DynamicResource BrushPrimaria}" Margin="0,2,16,0" VerticalAlignment="Top"/>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock x:Name="TxtAcaoTitulo" FontSize="22" FontWeight="Bold" TextWrapping="Wrap"/>
+                                <TextBlock x:Name="TxtAcaoDescricao" Margin="0,6,0,0" TextWrapping="Wrap"
+                                           Foreground="{DynamicResource BrushTextoSecundario}"/>
+                                <Border x:Name="BordaAdmin" Margin="0,10,0,0" HorizontalAlignment="Left" CornerRadius="4"
+                                        Background="{DynamicResource BrushCinzaClaro}" Padding="10,5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock x:Name="TxtAdminIcone" Text="&#xE7EF;" FontFamily="{StaticResource FonteIcones}"
+                                                   Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="TxtAdmin" Text="Não exige administrador" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Credenciais -->
+                        <StackPanel x:Name="PainelCredencial" Margin="0,10,0,0" MaxWidth="460" HorizontalAlignment="Left" Visibility="Collapsed">
+                            <TextBlock x:Name="LblUsuario" Text="Usuário de rede" Style="{StaticResource Rotulo}"/>
+                            <TextBox x:Name="TxtUsuario" MaxLength="120" AutomationProperties.Name="Usuário de rede"/>
+                            <TextBlock x:Name="TxtUsuarioDica" Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource BrushTextoSecundario}"
+                                       Text="Exemplo: joao.silva (o domínio é adicionado automaticamente)."/>
+                            <TextBlock Text="Senha" Style="{StaticResource Rotulo}"/>
+                            <PasswordBox x:Name="PwdSenha" MaxLength="256" AutomationProperties.Name="Senha"/>
+                            <StackPanel x:Name="PainelCapsLock" Orientation="Horizontal" Margin="0,4,0,0" Visibility="Collapsed">
+                                <TextBlock Text="&#xE7BA;" FontFamily="{StaticResource FonteIcones}" Foreground="{DynamicResource BrushAviso}"
+                                           Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Caps Lock está ativado." Foreground="{DynamicResource BrushAviso}" FontSize="12"/>
+                            </StackPanel>
+                            <TextBlock Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource BrushTextoSecundario}"
+                                       Text="A senha não é exibida, não é gravada em arquivo e não vai para o log. Fica guardada no Gerenciador de Credenciais do Windows."/>
+                        </StackPanel>
+
+                        <!-- Opções (criadas pela aplicação) -->
+                        <StackPanel x:Name="PainelOpcoes" Margin="0,10,0,0" Visibility="Collapsed">
+                            <TextBlock x:Name="TxtOpcoesTitulo" Text="Opções" Style="{StaticResource Rotulo}"/>
+                            <StackPanel x:Name="ListaOpcoes"/>
+                        </StackPanel>
+
+                        <!-- Botões de ação -->
+                        <WrapPanel Margin="0,22,0,0">
+                            <Button x:Name="BtnExecutar" Style="{StaticResource BotaoPrimario}" Margin="0,0,12,8">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="&#xE768;" FontFamily="{StaticResource FonteIcones}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="TxtBotaoExecutar" Text="Executar" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                            <Button x:Name="BtnSecundaria" Style="{StaticResource BotaoSecundario}" Margin="0,0,12,8" Visibility="Collapsed">
+                                <TextBlock x:Name="TxtBotaoSecundaria" Text="" VerticalAlignment="Center"/>
+                            </Button>
+                        </WrapPanel>
+
+                        <!-- Resultado -->
+                        <Border x:Name="BordaResultado" Margin="0,16,0,0" Visibility="Collapsed" CornerRadius="8"
+                                BorderThickness="2" Padding="18" Background="{DynamicResource BrushCinzaClaro}"
+                                BorderBrush="{DynamicResource BrushPrimaria}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock x:Name="TxtResultadoIcone" FontFamily="{StaticResource FonteIcones}" FontSize="22"
+                                               Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="TxtResultadoTitulo" FontSize="17" FontWeight="Bold" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <TextBlock x:Name="TxtResultadoMensagem" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="15"/>
+                                <TextBlock x:Name="TxtResultadoItens" Margin="0,10,0,0" TextWrapping="Wrap" LineHeight="22"/>
+                                <Border x:Name="BordaRecomendacao" Margin="0,12,0,0" Padding="10,8" Background="{DynamicResource BrushBranco}"
+                                        CornerRadius="4" Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE82F;" FontFamily="{StaticResource FonteIcones}" Margin="0,2,8,0" VerticalAlignment="Top"/>
+                                        <TextBlock x:Name="TxtResultadoRecomendacao" TextWrapping="Wrap" MaxWidth="780"/>
+                                    </StackPanel>
+                                </Border>
+                                <Button x:Name="BtnCopiarDetalhes" Style="{StaticResource BotaoSecundario}" HorizontalAlignment="Left"
+                                        Margin="0,14,0,0" AutomationProperties.Name="Copiar detalhes técnicos">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="&#xE8C8;" FontFamily="{StaticResource FonteIcones}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Copiar detalhes técnicos" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Saída de texto (diagnóstico / logs) -->
+                        <TextBox x:Name="TxtSaida" Margin="0,16,0,0" Visibility="Collapsed" IsReadOnly="True"
+                                 FontFamily="Consolas" FontSize="12.5" TextWrapping="NoWrap" MinHeight="260" MaxHeight="460"
+                                 VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                 AutomationProperties.Name="Saída técnica"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <!-- ===================== STATUS / PROGRESSO ===================== -->
+        <Border Grid.Row="3" Background="{DynamicResource BrushCinzaClaro}" BorderBrush="#D0D0D0" BorderThickness="0,1,0,0" Padding="20,8">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="TxtStatusIcone" Text="&#xE73E;" FontFamily="{StaticResource FonteIcones}"
+                               Foreground="{DynamicResource BrushSucesso}" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="TxtStatus" Text="Pronto." VerticalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+                <ProgressBar x:Name="BarraProgresso" Height="6" Margin="0,6,0,0" Minimum="0" Maximum="100"
+                             Foreground="{DynamicResource BrushPrimaria}" Background="{DynamicResource BrushBranco}"
+                             BorderThickness="0" Visibility="Collapsed" AutomationProperties.Name="Progresso"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ===================== ATIVIDADES DA SESSÃO ===================== -->
+        <Expander x:Name="ExpAtividades" Grid.Row="4" Header="Atividades desta sessão" Padding="20,2,20,6"
+                  Background="{DynamicResource BrushBranco}">
+            <ListBox x:Name="ListaAtividades" Height="120" BorderThickness="0" FontSize="12.5"
+                     AutomationProperties.Name="Atividades desta sessão"/>
+        </Expander>
+
+        <!-- ===================== RODAPÉ ===================== -->
+        <Border Grid.Row="5" Background="{DynamicResource BrushPreto}" Padding="20,7">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TxtRodape" Grid.Column="0" Foreground="{DynamicResource BrushBranco}" FontSize="12"
+                           TextTrimming="CharacterEllipsis" VerticalAlignment="Center"/>
+                <TextBlock x:Name="TxtEstado" Grid.Column="1" Foreground="{DynamicResource BrushBranco}" FontSize="12"
+                           FontWeight="SemiBold" Margin="16,0,0,0" VerticalAlignment="Center" Text="● Pronto"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
